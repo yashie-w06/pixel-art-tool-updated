@@ -1,0 +1,75 @@
+REFERENCE IMAGES — READ FIRST
+
+The retro Paint reference images are already inside the current project folder.
+
+1. Find image files recursively using rg --files or an equivalent file-listing command. Include PNG, JPG, JPEG and WEBP; exclude node_modules, .git, dist, build and test artifacts.
+2. Prefer filenames containing “paint”, “retro” or “interface”. Also check images.jpeg if present.
+3. Open and visually inspect up to three distinct relevant references before implementing the interface. Skip duplicate versions.
+4. Use their gray beveled controls, navy title bar, compact toolbox, recessed canvas and bottom color palette as design inspiration.
+5. Build the interface with HTML/CSS and original SVG icons. Keep reference files unchanged and exclude them from the production bundle.
+6. If no references are found, continue using the written retro design specification and mention that briefly.
+
+Then implement the complete PixelDesk specification below. Finish implementation and verification; do not stop after inspecting the images. Do not commit, push or deploy.
+
+Build a complete, polished pixel-art editor in the current workspace. Prepare it for GitHub Pages, but DO NOT push, deploy, create a remote repository, or publish anything.
+
+Stack:
+- React + TypeScript + Vite
+- HTML Canvas 2D for rendering
+- Zustand for editor/UI state
+- react-colorful for color picking
+- IndexedDB through idb-keyval for autosave
+- CSS Modules; responsive layout
+- Vitest + Playwright for focused tests
+- Use pnpm
+
+Features:
+1. New artwork: grid presets 16×16, 32×32, 64×64, plus custom width/height from 1–256 pixels. Default 32×32. Confirm before replacing unsaved artwork.
+2. Pencil: click individual cells or hold and drag to paint continuously. Interpolate between pointer positions so fast strokes leave no gaps.
+3. Eraser: clear pixels to transparency.
+4. Fill bucket: fill connected pixels of the same color.
+5. Eyedropper: pick an existing pixel’s color.
+6. Color controls: visual picker, editable HEX input, recent colors, saved custom palettes.
+7. Undo/redo: each completed drag is ONE action. Include fill, erase and clear operations. Bound history memory.
+8. Zoom in/out, zoom percentage, pan, reset view and fit-to-view. Zoom must preserve artwork dimensions and sharp pixel edges.
+9. Toggle grid visibility; show transparency using a checkerboard.
+10. Autosave completed edits with debounce; restore the last project after reload. Display saving/saved/error status.
+11. PNG download: transparent or chosen background; original size or 2×/4×/8× scaling. Exclude grid, checkerboard and editor overlays. Disable smoothing.
+12. Download/reopen editable, versioned JSON projects containing dimensions, pixel data and palettes. Validate imported files and handle malformed/oversized files gracefully.
+13. Mouse, touch and pen support. Provide an explicit pan tool for touch.
+14. Keyboard shortcuts: pencil B, eraser E, fill F, eyedropper I, undo Ctrl/Cmd+Z, redo Ctrl/Cmd+Shift+Z, zoom +/−, hold Space to pan. Do not intercept shortcuts while typing in inputs.
+15. Clear canvas with confirmation.
+
+UX:
+- Desktop: tools left, canvas center, colors right, project/export controls above.
+- Mobile: compact accessible controls with usable touch targets.
+- Clearly indicate selected tool/color, grid dimensions and zoom.
+- Accessible labels, tooltips, visible focus, helpful empty/error states.
+- Deliver finished styling, not placeholder UI.
+
+Implementation:
+- Keep drawing logic independent of React components.
+- Use an RGBA typed buffer as the pixel source of truth.
+- Avoid React rerenders for every painted cell; batch canvas rendering with requestAnimationFrame.
+- Separate artwork coordinates from display transforms; account for devicePixelRatio.
+- Use Pointer Events and pointer capture. Correctly handle release outside the canvas, pointercancel and lost capture.
+- Keep grid/preview overlays separate from exported artwork.
+- Handle storage failures visibly; project downloads must remain available.
+- All processing stays in the browser.
+
+GitHub readiness:
+- Include source, pnpm lockfile, .gitignore and concise README.
+- README: setup, commands, shortcuts, features, local-storage limitations and GitHub Pages setup.
+- Add a GitHub Actions workflow that tests, builds and deploys dist to Pages when pushed to main or manually dispatched. Create the workflow only; do not run deployment.
+- Configure Vite base for both root hosting and repository subpaths; document how to set the repository path.
+- Provide dev, build, preview, test and test:e2e scripts.
+- Exclude node_modules, dist and test artifacts from source control.
+- No credentials, backend or external paid services.
+
+Validation:
+- Test flood fill, stroke interpolation, undo/redo boundaries, import validation and export dimensions.
+- Verify a browser workflow covering drag painting, undo/redo, autosave restoration and PNG download.
+- Run the production build and relevant tests; fix failures.
+- Inspect desktop and mobile layouts.
+
+Work autonomously. Keep commentary and final output concise. Read only relevant files, avoid repeated scans and verbose logs, and do not generate lengthy planning documents. Finish with what was built, checks performed, run commands and any limitations. Do not commit, push or publish.

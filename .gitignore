@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.vite/
+*.log
+.DS_Store
+.env*
+!.env.example
+
+# Local design references (not part of the production bundle)
+*.png
+*.jpg
+*.jpeg
+*.webp
